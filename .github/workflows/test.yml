@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dev dependencies
+        run: pip install pytest flake8
+
+      - name: Lint with flake8
+        run: |
+          flake8 . \
+            --max-line-length=100 \
+            --extend-ignore=E203,W503 \
+            --exclude=.git,__pycache__,.github \
+            --count --statistics
+
+      - name: Generate test log
+        run: python scripts/generate_logs.py sample.log --lines 500
+
+      - name: Run unit tests
+        run: pytest tests/ -v
+
+      - name: Smoke-test CLI (default flags)
+        run: python main.py sample.log
+
+      - name: Smoke-test CLI (custom lookback)
+        run: python main.py sample.log --lookback 10
+
+      - name: Smoke-test CLI (threats disabled)
+        run: python main.py sample.log --no-threats
