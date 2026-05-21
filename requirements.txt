@@ -1,0 +1,9 @@
+# Core tool — no install needed (standard library only)
+# These are OPTIONAL packages for extra features:
+
+# AI root-cause analysis (--ai-analysis flag)
+anthropic>=0.40.0
+
+# Interactive dashboard (streamlit run dashboard.py)
+streamlit>=1.35.0
+pandas>=2.0.0
