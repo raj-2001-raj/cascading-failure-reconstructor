@@ -60,14 +60,18 @@ MALFORMED_LINES = [
 def fmt_iso(dt: datetime) -> str:
     return dt.strftime("%Y-%m-%dT%H:%M:%SZ")
 
+
 def fmt_slash(dt: datetime) -> str:
     return dt.strftime("%Y/%m/%d %H:%M:%S")
+
 
 def fmt_day_mon(dt: datetime) -> str:
     return dt.strftime("%d-%b-%Y %H:%M:%S")
 
+
 def fmt_epoch(dt: datetime) -> str:
     return str(int(dt.timestamp()))
+
 
 TS_FORMATTERS = [fmt_iso, fmt_iso, fmt_iso, fmt_iso, fmt_slash, fmt_day_mon, fmt_epoch]
 
@@ -118,7 +122,10 @@ def generate(output_path: Path, n_lines: int) -> None:
         dt += timedelta(seconds=random.uniform(0.1, 2.0))
         ip = random.choice(IPS)
         method = random.choices(METHODS, METHOD_WEIGHTS)[0]
-        path = ip_session.get(ip, random.choice(PATHS)) if random.random() < 0.6 else random.choice(PATHS)
+        if random.random() < 0.6:
+            path = ip_session.get(ip, random.choice(PATHS))
+        else:
+            path = random.choice(PATHS)
         status = random.choice(STATUS_POOL)
         ms = random.randint(10, 3000)
 

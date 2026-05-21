@@ -13,14 +13,14 @@ import os
 import sys
 import tempfile
 
-import pandas as pd
-import streamlit as st
-
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from db import build_db
-from reconstructor import reconstruct
-from threat_hunter import hunt_all
+import pandas as pd  # noqa: E402
+import streamlit as st  # noqa: E402
+
+from db import build_db  # noqa: E402
+from reconstructor import reconstruct  # noqa: E402
+from threat_hunter import hunt_all  # noqa: E402
 
 st.set_page_config(
     page_title="Cascading Failure Reconstructor",

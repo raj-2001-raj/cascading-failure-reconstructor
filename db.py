@@ -6,7 +6,6 @@ larger than available RAM.  The caller receives the temp file path and is
 responsible for deleting it after the connection is closed.
 """
 
-import os
 import sqlite3
 import tempfile
 from typing import Tuple, Dict
